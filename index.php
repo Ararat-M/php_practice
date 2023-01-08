@@ -47,7 +47,7 @@ $example_persons_array = [
 ];
 
 function getFullnameFromParts ($surname, $name, $patronomyc) {
-    return $surname . ' ' . $name . ' ' . $patronomyc;
+    return mb_convert_case($surname . ' ' . $name . ' ' . $patronomyc, MB_CASE_TITLE);
 }
 
 function getPartsFromFullname($fullName) {
@@ -120,3 +120,22 @@ function getGenderDescription($personArray) {
     echo 'Женщины - ' . round($genderFemaleCounter * 100 / count($personArray), 1) . '%' .  '<br>';
     echo 'Неопределенно - ' . round($genderindefinedCounter * 100 / count($personArray), 1) . '%' .  '<br>';
 }
+
+function getPerfectPartner($surname, $name, $patronomyc, $personArray){
+    $fullName = getFullnameFromParts($surname, $name, $patronomyc);
+    $gender = getGenderFromName($fullName);
+
+    $counter = 0;
+    while ($counter < 100) {
+        $partnerIndex = rand(0, count($personArray) - 1);
+        $partnerGender = getGenderFromName($personArray[$partnerIndex]['fullname']);
+        if ($partnerGender != $gender && $partnerGender != 0) {
+            return getShortName($fullName) . " + " . getShortName($personArray[$partnerIndex]['fullname']) . ' = ' . '<br>'
+                . '&#9825' . ' Идеально на ' . round(rand(5000, 10000) / 100, 2) . '% ' . '&#9825';
+        } else {
+            $counter++;
+        }
+    }
+}
+
+echo getPerfectPartner("Иванов", "Иван", "Иванович", $example_persons_array);
