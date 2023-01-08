@@ -138,4 +138,4 @@ function getPerfectPartner($surname, $name, $patronomyc, $personArray){
     }
 }
 
-echo getPerfectPartner("Иванов", "Иван", "Иванович", $example_persons_array);
+echo getPerfectPartner("Иванова", "Ивана", "Ивановна", $example_persons_array);
